@@ -2,7 +2,7 @@ library(shiny)
 library(DBI)
 library(duckdb)
 
-con <- dbConnect(duckdb(), "data/bryo.duckdb")
+con <- dbConnect(duckdb(), "bryoquelTest.duckdb")
 
 ui <- fluidPage(
   titlePanel("BRYOQUEL test"),

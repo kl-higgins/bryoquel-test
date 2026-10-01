@@ -1,4 +1,9 @@
 
+install.packages("rsconnect")
+library(rsconnect)
+
+
+rsconnect::writeManifest()
 
 
 library(RSQLite)
@@ -7,6 +12,7 @@ library(duckdb)
 library(dplyr)
 library(datamods)
 library(shiny)
+library(data.table)
 
 #"BRYOQUELInterfaceR$tables"
 #créer le fichier .duckdb pour rassemblers les fichiers de tables
@@ -48,13 +54,14 @@ dbAppendTable(con, "occurrences", occurrences)
 newIDtaxon <- dbGetQuery(con, "SELECT COALESCE(MAX(IDtaxon), 0) + 1 AS IDtaxon from taxons")$IDtaxon
 now <- as.Date(Sys.time())
 
-#Brachydontium trichodes
+#Ajouter nouvelle information Brachydontium trichodes
 newTaxon <- data.table(IDtaxon = newIDtaxon, IDnameForExport = NA_integer_,
                        etatTaxon = "actif",
                        dateModif = now, dateCreation = now,
                        etatTaxonCommentaire = "Première mention de cette mousse pour le Québec récoltée le 2025-09-28")
 
 dbAppendTable(con, "taxons", newTaxon)
+
 
 newIDname <- dbGetQuery(con, "SELECT COALESCE(MAX(IDname), 0) + 1 AS IDname from nomenclature")$IDname
 now <- as.Date(Sys.time())
@@ -87,4 +94,10 @@ dbGetQuery(
   "SELECT * FROM taxons WHERE IDtaxon = 1123 LIMIT 10"
 )
 
+dbGetQuery(
+  con,
+  "DESCRIBE nomenclature"
+)
+
+DBI::dbDisconnect(con, shutdown = TRUE)
 
