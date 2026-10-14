@@ -1,0 +1,1 @@
+Ces fichiers sont créés uniquement pour tester une plateforme potentielle avec interface web. L'objectif est de déterminer si les packages R peuvent accomoder facilememt les besoins de la base de données BRYOQUEL : modication et visualisation.
